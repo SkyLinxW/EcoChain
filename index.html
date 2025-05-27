@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EcoChain Agro - Mercado Digital de Resíduos Agroindustriais</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7f3;
+    color: #2c3e50;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+  header {
+    background: #e6f0e6;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    letter-spacing: 1.5px;
+    user-select: none;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+  }
+  nav a {
+    color: #2c3e50;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #4caf50;
+    left: 0;
+    bottom: -6px;
+    transition: width 0.3s ease;
+  }
+  nav a:hover {
+    color: #4caf50;
+  }
+  nav a:hover::after {
+    width: 100%;
+  }
+  .btn-cadastro {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white !important;
+    border-radius: 25px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin-left: 20px;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-cadastro:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+  }
+  .btn-login {
+    padding: 10px 25px;
+    background: #d4b648; /* amarelo meio amarelado */
+    color: #2c3e50;
+    border-radius: 25px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(212, 182, 72, 0.6);
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin-left: 20px;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-login:hover {
+    background: #c5aa3f;
+    transform: translateY(-2px);
+  }
+  .btn-sair {
+    padding: 10px 25px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 700;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.6);
+  }
+  .btn-sair:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+  }
+  section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  section h2 {
+    color: #4caf50;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+  section p {
+    color: #444;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  #home {
+    padding: 80px 40px 40px 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #a8d5ba, #5b8c5a);
+    color: #fff;
+    border-radius: 15px;
+    margin: 40px auto 50px auto;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    animation: fadeInDown 1s ease forwards;
+  }
+  #home h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+  }
+  #home p {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+  }
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  footer {
+    background: #2c3e50;
+    color: #bbb;
+    padding: 25px 40px;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 60px;
+  }
+  footer a {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">EcoChain Agro</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="anuncios.html">Anúncios</a>
+    <a href="painel.html">Painel</a>
+    <a href="#contato">Contato</a>
+    <a href="cadastro.html" class="btn-cadastro">Cadastrar</a>
+    <a href="login.html" class="btn-login">Login</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h1>Bem-vindo à EcoChain Agro</h1>
+  <p>O mercado digital de resíduos agroindustriais que conecta produtores e compradores com transparência e sustentabilidade.</p>
+</section>
+
+<section id="como-funciona">
+  <h2>Como Funciona</h2>
+  <p>1. Produtores anunciam seus resíduos agroindustriais na plataforma.</p>
+  <p>2. Empresas interessadas encontram matérias-primas com rastreabilidade garantida por blockchain.</p>
+  <p>3. Transação segura e transparente com preço justo para todos.</p>
+</section>
+
+<section id="beneficios">
+  <h2>Benefícios</h2>
+  <p><strong>Rastreabilidade:</strong> Tecnologia blockchain assegura transparência e origem certificada.</p>
+  <p><strong>Preço Justo:</strong> Eliminação de intermediários e negociação direta entre partes.</p>
+  <p><strong>Sustentabilidade:</strong> Reaproveitamento eficiente de resíduos, reduzindo impactos ambientais.</p>
+</section>
+
+<section id="contato">
+  <h2>Contato</h2>
+  <p>Email: contato@ecochainagro.com.br</p>
+  <p>Telefone: +55 11 99999-9999</p>
+  <p>Endereço: Av. Sustentabilidade, 1000 - São Paulo, SP</p>
+</section>
+
+<footer>
+  <p>© 2025 EcoChain Agro. Todos os direitos reservados.</p>
+  <p><a href="mailto:contato@ecochainagro.com.br">contato@ecochainagro.com.br</a></p>
+</footer>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const nav = document.querySelector('nav');
+    const btnCadastro = nav.querySelector('.btn-cadastro');
+    const btnLogin = nav.querySelector('.btn-login');
+
+    if (localStorage.getItem('usuarioCadastrado') === 'true') {
+      // Usuário logado, remove botões cadastro e login
+      btnCadastro.style.display = 'none';
+      btnLogin.style.display = 'none';
+
+      // Adiciona link para perfil e botão sair com estilo animado
+      const perfilLink = document.createElement('a');
+      perfilLink.href = 'perfil.html';
+      perfilLink.className = 'btn-login';
+      perfilLink.textContent = 'Perfil';
+
+      const btnSair = document.createElement('button');
+      btnSair.className = 'btn-sair';
+      btnSair.textContent = 'Sair';
+
+      btnSair.addEventListener('click', () => {
+        localStorage.removeItem('usuarioCadastrado');
+        location.reload();
+      });
+
+      nav.appendChild(perfilLink);
+      nav.appendChild(btnSair);
+    } else {
+      // Usuário não logado, mostrar cadastro e login
+      btnCadastro.style.display = 'inline-block';
+      btnLogin.style.display = 'inline-block';
+    }
+  });
+</script>
+
+</body>
+</html>

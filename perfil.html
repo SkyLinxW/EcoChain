@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Perfil - EcoChain Agro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9fbf9;
+    color: #2c3e50;
+    padding: 40px 20px;
+    max-width: 480px;
+    margin: 40px auto;
+    user-select: none;
+  }
+
+  h1 {
+    color: #3a9952;
+    font-weight: 700;
+    margin-bottom: 30px;
+    font-size: 2.4rem;
+    text-align: center;
+    letter-spacing: 1.2px;
+    animation: fadeInDown 0.6s ease forwards;
+  }
+
+  form {
+    background: #fff;
+    padding: 30px 25px 35px 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(58, 153, 82, 0.15);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 18px;
+    color: #4a6b41;
+    user-select: text;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border: 1.8px solid #c3d4b5;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #f7faf6;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #3a9952;
+    box-shadow: 0 0 6px rgba(58, 153, 82, 0.4);
+    outline: none;
+    background: #fff;
+  }
+
+  button {
+    margin-top: 28px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #4caf50, #3a9952);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(58, 153, 82, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+    user-select: none;
+  }
+
+  button:hover {
+    background: linear-gradient(135deg, #3a9952, #2e7d32);
+    transform: translateY(-2px);
+  }
+
+  a.voltar {
+    display: block;
+    margin: 30px auto 0;
+    text-align: center;
+    text-decoration: none;
+    color: #4caf50;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+    user-select: none;
+  }
+
+  a.voltar:hover {
+    color: #3a9952;
+    text-decoration: underline;
+  }
+
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Editar Perfil</h1>
+
+<form id="formPerfil" autocomplete="off" novalidate>
+  <label for="nomeEmpresa">Nome da Empresa</label>
+  <input type="text" id="nomeEmpresa" name="nomeEmpresa" required />
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" required />
+
+  <label for="cnpj">CNPJ</label>
+  <input type="text" id="cnpj" name="cnpj" required />
+
+  <label for="endereco">Endereço</label>
+  <input type="text" id="endereco" name="endereco" required />
+
+  <label for="senha">Senha</label>
+  <input type="password" id="senha" name="senha" required />
+
+  <button type="submit">Salvar</button>
+</form>
+
+<a href="site.html" class="voltar">&#8592; Voltar ao site</a>
+
+<script>
+  if (localStorage.getItem('usuarioCadastrado') !== 'true') {
+    alert('Você precisa estar logado para acessar esta página.');
+    window.location.href = 'site.html';
+  }
+
+  const form = document.getElementById('formPerfil');
+
+  function carregarDados() {
+    const empresa = JSON.parse(localStorage.getItem('empresaCadastrada'));
+    if (!empresa) return;
+
+    document.getElementById('nomeEmpresa').value = empresa.nomeEmpresa || '';
+    document.getElementById('email').value = empresa.email || '';
+    document.getElementById('cnpj').value = empresa.cnpj || '';
+    document.getElementById('endereco').value = empresa.endereco || '';
+    document.getElementById('senha').value = empresa.senha || '';
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const empresaAtualizada = {
+      nomeEmpresa: form.nomeEmpresa.value.trim(),
+      email: form.email.value.trim(),
+      cnpj: form.cnpj.value.trim(),
+      endereco: form.endereco.value.trim(),
+      senha: form.senha.value.trim()
+    };
+
+    localStorage.setItem('empresaCadastrada', JSON.stringify(empresaAtualizada));
+    alert('Perfil salvo com sucesso!');
+  });
+
+  carregarDados();
+</script>
+
+</body>
+</html>

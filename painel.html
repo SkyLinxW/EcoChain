@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel - EcoChain Agro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7f3;
+      color: #2c3e50;
+      padding: 20px;
+    }
+    header {
+      background: #e6f0e6;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #4caf50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-radius: 8px;
+      gap: 10px;
+    }
+    .btn-voltar {
+      font-size: 1.3rem;
+      color: #4caf50;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 2px solid #4caf50;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+    }
+    .btn-voltar:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+    .header-title {
+      flex-grow: 1;
+    }
+    .header-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    /* Botões Perfil e Sair com estilo unificado e animação */
+    .btn-perfil, .btn-sair {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      user-select: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-perfil {
+      background-color: #4caf50; /* verde */
+      color: white;
+    }
+    .btn-perfil:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(76, 175, 80, 0.5);
+    }
+    .btn-sair {
+      background-color: #e53935; /* vermelho */
+      color: white;
+    }
+    .btn-sair:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(229, 57, 53, 0.5);
+    }
+    .anuncios-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+    .anuncio {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .anuncio h3 {
+      color: #388e3c;
+      margin-bottom: 8px;
+    }
+    .anuncio p {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    .btn-adicionar {
+      display: block;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      background: #4caf50;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-adicionar:hover {
+      background: #388e3c;
+    }
+    /* Modal */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .modal-bg.active {
+      display: flex;
+    }
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .modal h2 {
+      margin-bottom: 15px;
+      color: #4caf50;
+    }
+    .modal label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    .modal input, .modal textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+    .modal textarea {
+      min-height: 60px;
+    }
+    .modal .btns {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-salvar, .btn-cancelar {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      transition: background 0.3s ease;
+    }
+    .btn-salvar {
+      background: #4caf50;
+    }
+    .btn-salvar:hover {
+      background: #388e3c;
+    }
+    .btn-cancelar {
+      background: #888;
+    }
+    .btn-cancelar:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="site.html" class="btn-voltar" title="Voltar para o site">&#8592; Voltar</a>
+  <div class="header-title">Painel de Anúncios - EcoChain Agro</div>
+  <div class="header-actions">
+    <a href="perfil.html" class="btn-perfil" title="Perfil">Perfil</a>
+    <button class="btn-sair" id="btnSair">Sair</button>
+  </div>
+</header>
+
+<button class="btn-adicionar" id="btnAbrirModal">Adicionar Anúncio</button>
+
+<div class="anuncios-container" id="meusAnuncios"></div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h2>Novo Anúncio</h2>
+    <form id="formAnuncio">
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" required />
+
+      <label for="descricao">Descrição:</label>
+      <textarea id="descricao" required></textarea>
+
+      <label for="origem">Origem:</label>
+      <input type="text" id="origem" required />
+
+      <label for="preco">Preço:</label>
+      <input type="text" id="preco" required />
+
+      <div class="btns">
+        <button type="submit" class="btn-salvar">Salvar</button>
+        <button type="button" class="btn-cancelar" id="btnCancelar">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Controle de acesso
+  if(localStorage.getItem('usuarioCadastrado') !== 'true') {
+    window.location.href = 'cadastro.html';
+  }
+
+  const btnAbrirModal = document.getElementById('btnAbrirModal');
+  const modal = document.getElementById('modal');
+  const btnCancelar = document.getElementById('btnCancelar');
+  const formAnuncio = document.getElementById('formAnuncio');
+  const meusAnuncios = document.getElementById('meusAnuncios');
+  const btnSair = document.getElementById('btnSair');
+
+  // Pega anúncios do usuário do localStorage
+  let anunciosUsuario = JSON.parse(localStorage.getItem('anunciosEcoChain')) || [];
+
+  function renderizarAnuncios() {
+    meusAnuncios.innerHTML = '';
+    if(anunciosUsuario.length === 0){
+      meusAnuncios.innerHTML = '<p>Você ainda não anunciou nenhum material reutilizável.</p>';
+      return;
+    }
+    anunciosUsuario.forEach((anuncio, i) => {
+      meusAnuncios.innerHTML += `
+        <div class="anuncio">
+          <h3>${anuncio.titulo}</h3>
+          <p><strong>Descrição:</strong> ${anuncio.descricao}</p>
+          <p><strong>Origem:</strong> ${anuncio.origem}</p>
+          <p><strong>Preço:</strong> ${anuncio.preco}</p>
+          <button onclick="removerAnuncio(${i})" style="background:#e53935; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; margin-top:8px;">Remover</button>
+        </div>
+      `;
+    });
+  }
+
+  function abrirModal() {
+    modal.classList.add('active');
+  }
+
+  function fecharModal() {
+    modal.classList.remove('active');
+    formAnuncio.reset();
+  }
+
+  function removerAnuncio(index) {
+    anunciosUsuario.splice(index, 1);
+    localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
+    renderizarAnuncios();
+  }
+
+  btnAbrirModal.addEventListener('click', abrirModal);
+  btnCancelar.addEventListener('click', fecharModal);
+
+  formAnuncio.addEventListener('submit', e => {
+    e.preventDefault();
+    const titulo = document.getElementById('titulo').value.trim();
+    const descricao = document.getElementById('descricao').value.trim();
+    const origem = document.getElementById('origem').value.trim();
+    const preco = document.getElementById('preco').value.trim();
+
+    if(titulo && descricao && origem && preco) {
+      anunciosUsuario.push({ titulo, descricao, origem, preco });
+      localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
+      renderizarAnuncios();
+      fecharModal();
+    }
+  });
+
+  btnSair.addEventListener('click', () => {
+    localStorage.removeItem('usuarioCadastrado');
+    localStorage.removeItem('empresaCadastrada');
+    window.location.href = 'site.html';
+  });
+
+  window.addEventListener('DOMContentLoaded', renderizarAnuncios);
+</script>
+
+</body>
+</html>

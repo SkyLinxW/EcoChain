@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Empresa - EcoChain Agro</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5faf5;
+      color: #2e4d26;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    .voltar {
+      align-self: flex-start;
+      margin: 20px 0 10px 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4caf50;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .voltar:hover {
+      color: #388e3c;
+    }
+    form {
+      background: #d8eddb;
+      padding: 2rem 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #3a754a;
+    }
+    input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #e9f3e9;
+      color: #2e4d26;
+      transition: background-color 0.3s ease;
+    }
+    input:focus {
+      background-color: #cfe6cf;
+      outline: none;
+      box-shadow: 0 0 6px #4caf50aa;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #3a7d3a;
+    }
+    .login-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #2e4d26;
+    }
+    .login-link a {
+      color: #4caf50;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+      color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="site.html" class="voltar" title="Voltar para a página inicial">
+    &#8592; Voltar
+  </a>
+
+  <form id="formCadastroEmpresa">
+    <h2>Cadastro de Empresa</h2>
+    <input type="text" name="nomeEmpresa" placeholder="Nome da empresa" required minlength="3" />
+    <input type="text" name="cnpj" placeholder="CNPJ" pattern="\d{14}" title="Digite 14 números sem pontos ou traços" required />
+    <input type="text" name="endereco" placeholder="Endereço" required minlength="5" />
+    <input type="tel" name="telefone" placeholder="Telefone (ex: 11999999999)" pattern="\d{10,11}" title="Digite somente números com DDD" required />
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="text" name="responsavel" placeholder="Nome do responsável" required minlength="3" />
+    <input type="password" name="senha" placeholder="Senha" required minlength="6" />
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <div class="login-link">
+    Já tem um login? <a href="login.html">Entre aqui</a>
+  </div>
+
+  <script>
+    const form = document.getElementById('formCadastroEmpresa');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const empresa = {
+        nomeEmpresa: formData.get('nomeEmpresa').trim(),
+        cnpj: formData.get('cnpj').trim(),
+        endereco: formData.get('endereco').trim(),
+        telefone: formData.get('telefone').trim(),
+        email: formData.get('email').trim(),
+        responsavel: formData.get('responsavel').trim(),
+        senha: formData.get('senha')
+      };
+
+      if (
+        !empresa.nomeEmpresa || 
+        !empresa.cnpj.match(/^\d{14}$/) ||
+        !empresa.endereco || 
+        !empresa.telefone.match(/^\d{10,11}$/) ||
+        !empresa.email ||
+        !empresa.responsavel ||
+        empresa.senha.length < 6
+      ) {
+        alert('Por favor, preencha todos os campos corretamente.');
+        return;
+      }
+
+      localStorage.setItem('empresaCadastrada', JSON.stringify(empresa));
+      localStorage.setItem('usuarioCadastrado', 'true');
+
+      alert('Cadastro realizado com sucesso! Você será redirecionado para a página inicial.');
+
+      window.location.href = 'site.html'; // redireciona para a página inicial
+    });
+  </script>
+</body>
+</html>

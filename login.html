@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - EcoChain Agro</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5faf5;
+      color: #2e4d26;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    .voltar {
+      align-self: flex-start;
+      margin: 20px 0 10px 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4caf50;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .voltar:hover {
+      color: #388e3c;
+    }
+    form {
+      background: #d8eddb;
+      padding: 2rem 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #3a754a;
+    }
+    input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #e9f3e9;
+      color: #2e4d26;
+      transition: background-color 0.3s ease;
+    }
+    input:focus {
+      background-color: #cfe6cf;
+      outline: none;
+      box-shadow: 0 0 6px #4caf50aa;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #3a7d3a;
+    }
+    .cadastro-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #2e4d26;
+    }
+    .cadastro-link a {
+      color: #4caf50;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    .cadastro-link a:hover {
+      text-decoration: underline;
+      color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="site.html" class="voltar" title="Voltar para a página inicial">
+    &#8592; Voltar
+  </a>
+
+  <form id="formLogin">
+    <h2>Login</h2>
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="password" name="senha" placeholder="Senha" required minlength="6" />
+    <button type="submit">Entrar</button>
+  </form>
+
+  <div class="cadastro-link">
+    Não tem uma conta? <a href="cadastro.html">Cadastre-se aqui</a>
+  </div>
+
+  <script>
+    const formLogin = document.getElementById('formLogin');
+    formLogin.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const formData = new FormData(formLogin);
+      const email = formData.get('email').trim();
+      const senha = formData.get('senha');
+
+      if (!email || senha.length < 6) {
+        alert('Preencha corretamente o e-mail e a senha.');
+        return;
+      }
+
+      const empresaJSON = localStorage.getItem('empresaCadastrada');
+      if (!empresaJSON) {
+        alert('Nenhum cadastro encontrado. Por favor, cadastre-se primeiro.');
+        window.location.href = 'cadastro.html';
+        return;
+      }
+
+      const empresa = JSON.parse(empresaJSON);
+
+      if (empresa.email === email && empresa.senha === senha) {
+        localStorage.setItem('usuarioCadastrado', 'true');
+        alert('Login realizado com sucesso!');
+        window.location.href = 'perfil.html';
+      } else {
+        alert('E-mail ou senha incorretos.');
+      }
+    });
+  </script>
+
+</body>
+</html>
