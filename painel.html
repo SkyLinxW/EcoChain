@@ -50,7 +50,6 @@
       gap: 15px;
       align-items: center;
     }
-    /* Botões Perfil e Sair com estilo unificado e animação */
     .btn-perfil, .btn-sair {
       font-size: 1.1rem;
       font-weight: 600;
@@ -67,7 +66,7 @@
       justify-content: center;
     }
     .btn-perfil {
-      background-color: #4caf50; /* verde */
+      background-color: #4caf50;
       color: white;
     }
     .btn-perfil:hover {
@@ -75,7 +74,7 @@
       box-shadow: 0 6px 12px rgba(76, 175, 80, 0.5);
     }
     .btn-sair {
-      background-color: #e53935; /* vermelho */
+      background-color: #e53935;
       color: white;
     }
     .btn-sair:hover {
@@ -119,7 +118,6 @@
     .btn-adicionar:hover {
       background: #388e3c;
     }
-    /* Modal */
     .modal-bg {
       display: none;
       position: fixed;
@@ -192,7 +190,7 @@
 <body>
 
 <header>
-  <a href="site.html" class="btn-voltar" title="Voltar para o site">&#8592; Voltar</a>
+  <a href="index.html" class="btn-voltar" title="Voltar para o site">&#8592; Voltar</a>
   <div class="header-title">Painel de Anúncios - EcoChain Agro</div>
   <div class="header-actions">
     <a href="perfil.html" class="btn-perfil" title="Perfil">Perfil</a>
@@ -201,26 +199,20 @@
 </header>
 
 <button class="btn-adicionar" id="btnAbrirModal">Adicionar Anúncio</button>
-
 <div class="anuncios-container" id="meusAnuncios"></div>
 
-<!-- Modal -->
 <div class="modal-bg" id="modal">
   <div class="modal">
     <h2>Novo Anúncio</h2>
     <form id="formAnuncio">
       <label for="titulo">Título:</label>
       <input type="text" id="titulo" required />
-
       <label for="descricao">Descrição:</label>
       <textarea id="descricao" required></textarea>
-
       <label for="origem">Origem:</label>
       <input type="text" id="origem" required />
-
       <label for="preco">Preço:</label>
       <input type="text" id="preco" required />
-
       <div class="btns">
         <button type="submit" class="btn-salvar">Salvar</button>
         <button type="button" class="btn-cancelar" id="btnCancelar">Cancelar</button>
@@ -230,7 +222,6 @@
 </div>
 
 <script>
-  // Controle de acesso
   if(localStorage.getItem('usuarioCadastrado') !== 'true') {
     window.location.href = 'cadastro.html';
   }
@@ -242,7 +233,6 @@
   const meusAnuncios = document.getElementById('meusAnuncios');
   const btnSair = document.getElementById('btnSair');
 
-  // Pega anúncios do usuário do localStorage
   let anunciosUsuario = JSON.parse(localStorage.getItem('anunciosEcoChain')) || [];
 
   function renderizarAnuncios() {
@@ -300,7 +290,7 @@
   btnSair.addEventListener('click', () => {
     localStorage.removeItem('usuarioCadastrado');
     localStorage.removeItem('empresaCadastrada');
-    window.location.href = 'site.html';
+    window.location.href = 'index.html';
   });
 
   window.addEventListener('DOMContentLoaded', renderizarAnuncios);
