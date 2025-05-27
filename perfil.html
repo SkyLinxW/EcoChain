@@ -152,12 +152,12 @@
   <button type="submit">Salvar</button>
 </form>
 
-<a href="site.html" class="voltar">&#8592; Voltar ao site</a>
+<a href="index.html" class="voltar">&#8592; Voltar ao site</a>
 
 <script>
   if (localStorage.getItem('usuarioCadastrado') !== 'true') {
     alert('Você precisa estar logado para acessar esta página.');
-    window.location.href = 'site.html';
+    window.location.href = 'index.html';
   }
 
   const form = document.getElementById('formPerfil');
