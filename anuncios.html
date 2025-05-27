@@ -202,36 +202,36 @@
     <span class="close-modal" onclick="fecharModal()">×</span>
     <h2>Finalizar Compra</h2>
     <form onsubmit="finalizarCompra(event)">
-      <label>Produto</label>
+      <label for="compraProduto">Produto</label>
       <input type="text" id="compraProduto" readonly />
 
-      <label>Origem</label>
+      <label for="compraOrigem">Origem</label>
       <input type="text" id="compraOrigem" readonly />
 
-      <label>Preço por tonelada</label>
+      <label for="compraPreco">Preço por tonelada</label>
       <input type="text" id="compraPreco" readonly />
 
-      <label>Quantidade</label>
+      <label for="compraQuantidade">Quantidade</label>
       <input type="number" id="compraQuantidade" min="0.01" step="0.01" required />
 
-      <label>Unidade</label>
+      <label for="compraUnidade">Unidade</label>
       <select id="compraUnidade" required>
         <option value="tonelada">Toneladas</option>
         <option value="kg">Kg</option>
         <option value="m3">m³</option>
       </select>
 
-      <label>Preço Total</label>
+      <label for="compraPrecoTotal">Preço Total</label>
       <input type="text" id="compraPrecoTotal" readonly style="background:#e0e0e0;" />
 
-      <label>Nome Completo</label>
-      <input type="text" required />
+      <label for="nomeCompleto">Nome Completo</label>
+      <input type="text" id="nomeCompleto" required />
 
-      <label>Email</label>
-      <input type="email" required />
+      <label for="emailCompra">Email</label>
+      <input type="email" id="emailCompra" required />
 
-      <label>Endereço de Entrega</label>
-      <input type="text" required />
+      <label for="enderecoEntrega">Endereço de Entrega</label>
+      <input type="text" id="enderecoEntrega" required />
 
       <button type="submit" class="btn btn-verde">Finalizar Pedido</button>
     </form>
@@ -246,164 +246,185 @@
 const anuncios = [
   { titulo: "Cinza de casca de arroz", descricao: "Resíduo agrícola com alta reatividade pozzolânica.", origem: "Agrícola BomCampo", preco: "R$ 180/tonelada" },
   { titulo: "Cinza volante (fly ash)", descricao: "Material pozolânico que reage com cal e aumenta a resistência.", origem: "Usina Termoelétrica ValeCerto", preco: "R$ 300/tonelada" },
-  { titulo: "Escória de alto-forno", descricao: "Subproduto da indústria siderúrgica, aumenta resistência e durabilidade.", origem: "Siderúrgica MinasFer", preco: "R$ 250/tonelada" },
-  { titulo: "Metacaulim", descricao: "Material mineral usado para melhorar a trabalhabilidade.", origem: "Mineração Verde", preco: "R$ 280/tonelada" },
-  { titulo: "Lama de perfuração", descricao: "Material utilizado para impermeabilização e isolamento.", origem: "Petrobras", preco: "R$ 150/tonelada" }
+  { titulo: "Escória de alto-forno", descricao: "Subproduto da indústria siderúrgica, aumenta resistência e durabilidade.", origem: "Siderúrgica Metálica", preco: "R$ 250/tonelada" },
+  { titulo: "Cinza de carvão vegetal", descricao: "Cinza derivada da queima de carvão vegetal, melhora propriedades do concreto.", origem: "Fazenda Verde", preco: "R$ 190/tonelada" },
+  { titulo: "Cinza de casca de coco", descricao: "Material pozolânico derivado do coco, bom para concreto sustentável.", origem: "Cooperativa Cocosol", preco: "R$ 220/tonelada" },
+  { titulo: "Cinza de bagaço de cana", descricao: "Cinza proveniente da queima do bagaço de cana-de-açúcar.", origem: "Usina CanaForte", preco: "R$ 170/tonelada" },
+  { titulo: "Cinza de madeira", descricao: "Resíduo da queima de madeira, com propriedades pozzolânicas.", origem: "Madeireira Sustenta", preco: "R$ 200/tonelada" },
+  { titulo: "Cinza de casca de café", descricao: "Subproduto do beneficiamento do café, útil para concreto.", origem: "Cooperativa CaféMais", preco: "R$ 210/tonelada" },
+  { titulo: "Cinza de palha de arroz", descricao: "Resíduo agrícola, aumenta a durabilidade do concreto.", origem: "Fazenda Arrozal", preco: "R$ 160/tonelada" },
+  { titulo: "Cinza de casca de amendoim", descricao: "Cinza proveniente da casca do amendoim, material pozzolânico.", origem: "Cooperativa AmendoimVerde", preco: "R$ 180/tonelada" }
 ];
 
+// Controle simples para mostrar/ocultar botões perfil, login, cadastro e sair
+const btnPerfil = document.getElementById("btnPerfil");
+const btnSair = document.getElementById("btnSair");
+const btnCadastro = document.getElementById("btnCadastro");
+const btnLogin = document.getElementById("btnLogin");
 
-const listaAnunciosEl = document.getElementById('listaAnuncios');
-const modalCompra = document.getElementById('modalCompra');
-const compraProduto = document.getElementById('compraProduto');
-const compraOrigem = document.getElementById('compraOrigem');
-const compraPreco = document.getElementById('compraPreco');
-const compraQuantidade = document.getElementById('compraQuantidade');
-const compraUnidade = document.getElementById('compraUnidade');
-const compraPrecoTotal = document.getElementById('compraPrecoTotal');
+// Simulação: usuário logado se localStorage tem "usuarioLogado" = "true"
+function atualizarBotoes() {
+  if (localStorage.getItem("usuarioLogado") === "true") {
+    btnPerfil.style.display = "inline-block";
+    btnSair.style.display = "inline-block";
+    btnCadastro.style.display = "none";
+    btnLogin.style.display = "none";
+  } else {
+    btnPerfil.style.display = "none";
+    btnSair.style.display = "none";
+    btnCadastro.style.display = "inline-block";
+    btnLogin.style.display = "inline-block";
+  }
+}
+atualizarBotoes();
+
+btnSair.addEventListener("click", () => {
+  localStorage.removeItem("usuarioLogado");
+  atualizarBotoes();
+});
+btnPerfil.addEventListener("click", () => {
+  window.location.href = "perfil.html";
+});
+btnCadastro.addEventListener("click", () => {
+  window.location.href = "cadastro.html";
+});
+btnLogin.addEventListener("click", () => {
+  alert("Funcionalidade de login não implementada neste demo.");
+});
+
+// Função para exibir anúncios filtrados ou todos
+function exibirAnuncios(lista) {
+  const container = document.getElementById("listaAnuncios");
+  container.innerHTML = "";
+  if (lista.length === 0) {
+    container.innerHTML = "<p style='text-align:center; color:#777;'>Nenhum anúncio encontrado.</p>";
+    return;
+  }
+  lista.forEach((a, i) => {
+    const div = document.createElement("div");
+    div.className = "anuncio";
+    div.innerHTML = `
+      <h3>${a.titulo}</h3>
+      <p>${a.descricao}</p>
+      <p><strong>Origem:</strong> ${a.origem}</p>
+      <p><strong>Preço:</strong> ${a.preco}</p>
+      <button class="btn-comprar" onclick="abrirModal(${i})">Comprar</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Filtrar anúncios por busca simples
+function filtrarAnuncios() {
+  const busca = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!busca) {
+    exibirAnuncios(anuncios);
+    return;
+  }
+  const filtrados = anuncios.filter(a => 
+    a.titulo.toLowerCase().includes(busca) || 
+    a.origem.toLowerCase().includes(busca) || 
+    a.descricao.toLowerCase().includes(busca) ||
+    a.preco.toLowerCase().includes(busca)
+  );
+  exibirAnuncios(filtrados);
+}
+
+// Modal compra
+const modal = document.getElementById("modalCompra");
+const compraProduto = document.getElementById("compraProduto");
+const compraOrigem = document.getElementById("compraOrigem");
+const compraPreco = document.getElementById("compraPreco");
+const compraQuantidade = document.getElementById("compraQuantidade");
+const compraUnidade = document.getElementById("compraUnidade");
+const compraPrecoTotal = document.getElementById("compraPrecoTotal");
 
 let anuncioSelecionado = null;
 
-// Controle de login/cadastro simulado via localStorage
-const btnPerfil = document.getElementById('btnPerfil');
-const btnSair = document.getElementById('btnSair');
-const btnCadastro = document.getElementById('btnCadastro');
-const btnLogin = document.getElementById('btnLogin');
-
-function atualizarBotoesUsuario() {
-  const logado = localStorage.getItem('usuarioCadastrado') === "true";
-  if (logado) {
-    btnPerfil.style.display = 'inline-block';
-    btnSair.style.display = 'inline-block';
-    btnCadastro.style.display = 'none';
-    btnLogin.style.display = 'none';
-  } else {
-    btnPerfil.style.display = 'none';
-    btnSair.style.display = 'none';
-    btnCadastro.style.display = 'inline-block';
-    btnLogin.style.display = 'inline-block';
-  }
-}
-atualizarBotoesUsuario();
-
-btnSair.addEventListener('click', () => {
-  localStorage.removeItem('usuarioCadastrado');
-  atualizarBotoesUsuario();
-  alert('Você saiu do sistema.');
-});
-
-btnCadastro.addEventListener('click', () => {
-  window.location.href = 'cadastro.html';
-});
-
-btnLogin.addEventListener('click', () => {
-  // Para demo, só simula login
-  localStorage.setItem('usuarioCadastrado', 'true');
-  atualizarBotoesUsuario();
-  alert('Login simulado realizado!');
-});
-
-btnPerfil.addEventListener('click', () => {
-  window.location.href = 'perfil.html';
-});
-
-function criarAnuncioElement(anuncio) {
-  const div = document.createElement('div');
-  div.className = 'anuncio';
-  div.innerHTML = `
-    <h3>${anuncio.titulo}</h3>
-    <p><strong>Descrição:</strong> ${anuncio.descricao}</p>
-    <p><strong>Origem:</strong> ${anuncio.origem}</p>
-    <p><strong>Preço:</strong> ${anuncio.preco}</p>
-    <button class="btn-comprar">Comprar</button>
-  `;
-
-  const btnComprar = div.querySelector('.btn-comprar');
-  btnComprar.addEventListener('click', () => {
-    if (localStorage.getItem('usuarioCadastrado') === "true") {
-      abrirModalCompra(anuncio);
-    } else {
-      alert('Você precisa estar logado para comprar. Por favor, faça login ou cadastro.');
-    }
-  });
-
-  return div;
-}
-
-function mostrarAnuncios(lista) {
-  listaAnunciosEl.innerHTML = '';
-  if (lista.length === 0) {
-    listaAnunciosEl.innerHTML = '<p>Nenhum anúncio encontrado.</p>';
-    return;
-  }
-  lista.forEach(anuncio => {
-    listaAnunciosEl.appendChild(criarAnuncioElement(anuncio));
-  });
-}
-
-function filtrarAnuncios() {
-  const termo = document.getElementById('searchInput').value.toLowerCase();
-  const filtrados = anuncios.filter(a =>
-    a.titulo.toLowerCase().includes(termo) ||
-    a.descricao.toLowerCase().includes(termo) ||
-    a.origem.toLowerCase().includes(termo) ||
-    a.preco.toLowerCase().includes(termo)
-  );
-  mostrarAnuncios(filtrados);
-}
-
-function abrirModalCompra(anuncio) {
-  anuncioSelecionado = anuncio;
-  compraProduto.value = anuncio.titulo;
-  compraOrigem.value = anuncio.origem;
-  compraPreco.value = anuncio.preco;
-  compraQuantidade.value = '';
-  compraUnidade.value = 'tonelada';
-  compraPrecoTotal.value = '';
-  modalCompra.style.display = 'flex';
+function abrirModal(indice) {
+  anuncioSelecionado = anuncios[indice];
+  compraProduto.value = anuncioSelecionado.titulo;
+  compraOrigem.value = anuncioSelecionado.origem;
+  compraPreco.value = anuncioSelecionado.preco;
+  compraQuantidade.value = "";
+  compraUnidade.value = "tonelada";
+  compraPrecoTotal.value = "";
+  modal.style.display = "flex";
 }
 
 function fecharModal() {
-  modalCompra.style.display = 'none';
+  modal.style.display = "none";
   anuncioSelecionado = null;
 }
 
-compraQuantidade.addEventListener('input', atualizarPrecoTotal);
-compraUnidade.addEventListener('change', atualizarPrecoTotal);
-
+// Atualizar preço total ao alterar quantidade ou unidade
 function atualizarPrecoTotal() {
   if (!anuncioSelecionado) return;
-  const precoStr = anuncioSelecionado.preco.replace(/[^\d,\.]/g, '').replace(',', '.');
-  const preco = parseFloat(precoStr);
-  let quantidade = parseFloat(compraQuantidade.value);
-  if (isNaN(preco) || isNaN(quantidade) || quantidade <= 0) {
-    compraPrecoTotal.value = '';
+  const precoString = anuncioSelecionado.preco; // Ex: "R$ 180/tonelada"
+  const precoNum = parseFloat(precoString.replace(/[^\d.,]/g, '').replace(',', '.')); // 180
+  if (isNaN(precoNum)) {
+    compraPrecoTotal.value = "Preço inválido";
     return;
   }
 
-  // Ajustar quantidade conforme unidade
-  // preço é por tonelada, então:
-  // tonelada = 1000 kg, 1 tonelada ≈ 1 m3 (simplificado)
-  let fator = 1;
-  if (compraUnidade.value === 'kg') fator = 1/1000;
-  else if (compraUnidade.value === 'm3') fator = 1; // pode ajustar se quiser fórmula diferente
+  let qtd = parseFloat(compraQuantidade.value);
+  if (isNaN(qtd) || qtd <= 0) {
+    compraPrecoTotal.value = "";
+    return;
+  }
+  const unidade = compraUnidade.value;
 
-  const precoTotal = preco * quantidade * fator;
-  compraPrecoTotal.value = precoTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  // Conversões:
+  // 1 tonelada = 1000 kg
+  // 1 tonelada = 0.7 m³ (assumindo densidade média, ajustar se precisar)
+  let precoTotal = 0;
+
+  switch (unidade) {
+    case "tonelada":
+      precoTotal = precoNum * qtd;
+      break;
+    case "kg":
+      precoTotal = precoNum * (qtd / 1000);
+      break;
+    case "m3":
+      precoTotal = precoNum * (qtd / 0.7);
+      break;
+  }
+
+  compraPrecoTotal.value = `R$ ${precoTotal.toFixed(2)}`;
 }
 
+compraQuantidade.addEventListener("input", atualizarPrecoTotal);
+compraUnidade.addEventListener("change", atualizarPrecoTotal);
+
+// Finalizar compra
 function finalizarCompra(event) {
   event.preventDefault();
-  alert('Compra finalizada com sucesso! Obrigado por comprar na EcoChain Agro.');
+
+  // Validação básica já com required
+  if (!compraQuantidade.value || !nomeCompleto.value || !emailCompra.value || !enderecoEntrega.value) {
+    alert("Por favor, preencha todos os campos obrigatórios.");
+    return;
+  }
+
+  alert(`Pedido realizado com sucesso!\n
+Produto: ${compraProduto.value}
+Origem: ${compraOrigem.value}
+Quantidade: ${compraQuantidade.value} ${compraUnidade.value}
+Preço total: ${compraPrecoTotal.value}
+\nObrigado pela sua compra!`);
+
   fecharModal();
 }
 
-// Fechar modal clicando fora da caixa
-window.addEventListener('click', (e) => {
-  if (e.target === modalCompra) fecharModal();
-});
+// Fechar modal clicando fora do conteúdo
+window.onclick = function(event) {
+  if (event.target === modal) {
+    fecharModal();
+  }
+};
 
-// Mostrar anúncios ao carregar
-mostrarAnuncios(anuncios);
+exibirAnuncios(anuncios);
 </script>
 
 </body>
