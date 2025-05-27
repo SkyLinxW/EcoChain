@@ -222,6 +222,7 @@
 </div>
 
 <script>
+  // Redireciona se não estiver logado
   if(localStorage.getItem('usuarioCadastrado') !== 'true') {
     window.location.href = 'cadastro.html';
   }
@@ -233,8 +234,10 @@
   const meusAnuncios = document.getElementById('meusAnuncios');
   const btnSair = document.getElementById('btnSair');
 
+  // Recupera anúncios do localStorage
   let anunciosUsuario = JSON.parse(localStorage.getItem('anunciosEcoChain')) || [];
 
+  // Renderiza anúncios no painel
   function renderizarAnuncios() {
     meusAnuncios.innerHTML = '';
     if(anunciosUsuario.length === 0){
@@ -248,52 +251,51 @@
           <p><strong>Descrição:</strong> ${anuncio.descricao}</p>
           <p><strong>Origem:</strong> ${anuncio.origem}</p>
           <p><strong>Preço:</strong> ${anuncio.preco}</p>
-          <button onclick="removerAnuncio(${i})" style="background:#e53935; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; margin-top:8px;">Remover</button>
         </div>
       `;
     });
   }
 
-  function abrirModal() {
+  // Abre modal
+  btnAbrirModal.addEventListener('click', () => {
     modal.classList.add('active');
-  }
-
-  function fecharModal() {
-    modal.classList.remove('active');
     formAnuncio.reset();
-  }
-
-  function removerAnuncio(index) {
-    anunciosUsuario.splice(index, 1);
-    localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
-    renderizarAnuncios();
-  }
-
-  btnAbrirModal.addEventListener('click', abrirModal);
-  btnCancelar.addEventListener('click', fecharModal);
-
-  formAnuncio.addEventListener('submit', e => {
-    e.preventDefault();
-    const titulo = document.getElementById('titulo').value.trim();
-    const descricao = document.getElementById('descricao').value.trim();
-    const origem = document.getElementById('origem').value.trim();
-    const preco = document.getElementById('preco').value.trim();
-
-    if(titulo && descricao && origem && preco) {
-      anunciosUsuario.push({ titulo, descricao, origem, preco });
-      localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
-      renderizarAnuncios();
-      fecharModal();
-    }
   });
 
+  // Fecha modal
+  btnCancelar.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  // Salva anúncio no localStorage
+  formAnuncio.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const novoAnuncio = {
+      titulo: formAnuncio.titulo.value.trim(),
+      descricao: formAnuncio.descricao.value.trim(),
+      origem: formAnuncio.origem.value.trim(),
+      preco: formAnuncio.preco.value.trim(),
+    };
+    // Validação simples para evitar campos vazios
+    if(!novoAnuncio.titulo || !novoAnuncio.descricao || !novoAnuncio.origem || !novoAnuncio.preco) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+    anunciosUsuario.push(novoAnuncio);
+    localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
+    renderizarAnuncios();
+    modal.classList.remove('active');
+  });
+
+  // Botão sair
   btnSair.addEventListener('click', () => {
     localStorage.removeItem('usuarioCadastrado');
-    localStorage.removeItem('empresaCadastrada');
+    // Você pode remover outros dados relacionados ao usuário se quiser aqui
     window.location.href = 'index.html';
   });
 
-  window.addEventListener('DOMContentLoaded', renderizarAnuncios);
+  // Inicializa
+  renderizarAnuncios();
 </script>
 
 </body>
