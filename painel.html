@@ -93,6 +93,7 @@
       border-radius: 12px;
       padding: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
     }
     .anuncio h3 {
       color: #388e3c;
@@ -101,6 +102,24 @@
     .anuncio p {
       font-size: 0.95rem;
       margin-bottom: 6px;
+    }
+    /* Botão deletar do anúncio */
+    .btn-excluir {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #e53935;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    .btn-excluir:hover {
+      background: #b71c1c;
     }
     .btn-adicionar {
       display: block;
@@ -251,9 +270,19 @@
           <p><strong>Descrição:</strong> ${anuncio.descricao}</p>
           <p><strong>Origem:</strong> ${anuncio.origem}</p>
           <p><strong>Preço:</strong> ${anuncio.preco}</p>
+          <button class="btn-excluir" onclick="excluirAnuncio(${i})">Excluir</button>
         </div>
       `;
     });
+  }
+
+  // Função para excluir anúncio
+  function excluirAnuncio(indice) {
+    if(confirm('Tem certeza que deseja excluir este anúncio?')) {
+      anunciosUsuario.splice(indice, 1);
+      localStorage.setItem('anunciosEcoChain', JSON.stringify(anunciosUsuario));
+      renderizarAnuncios();
+    }
   }
 
   // Abre modal
